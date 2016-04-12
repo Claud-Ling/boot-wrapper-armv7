@@ -1,0 +1,41 @@
+The boot-wrapper is compiled as a standalone binary with a specific kernel and initrd built-in.
+
+
+The following files need to be linked into the boot wrapper directory:
+KERNEL		- point to <boot-wrapper dir>/prebuild/Image
+FILESYSTEM	- point to <boot-wrapper dir>/prebuild/filesystem.cpio.gz
+
+
+Compilation
+===========
+
+1)Format of source input file
+an input KERNEL can be one of belowing format:
+ -zImage (compressed binary)
+ -uImage (compressed binary with u-boot header)
+ -Image  (uncompressed binary)
+
+2)Alternatively, you may specify the paths for kernel and rootfs on the make command-line:
+make KERNEL=<path-to-kernel> FILESYSTEM=<path-to-rootfs>
+
+
+3)system select
+you need to specify the system type in make command-line, for example:
+make SYSTEM=sx7
+
+
+example:
+make CROSS_COMPILE=arm-none-linux-gnueabi- SYSTEM=sx7 KERNEL=../prebuild/Image FILESYSTEM=../prebuild/ramdisk.img.raw.cpio
+
+
+Running
+=======
+
+To run linux-stand-alone.bin:
+
+1)load linux-stand-laone.bin to memory address 0x00000000
+
+2)set PC to bootwrapper entry, which is defined as TEXT_BASE in config-default.mk
+
+
+
